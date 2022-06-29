@@ -1,6 +1,13 @@
+import { useEffect } from "react";
+import { api } from "../../services/api";
 import { Container } from "./style";
 
 export function Table() {
+  useEffect(() => {
+    api.get(".transactions");
+    then((data) => console.log(data));
+  }, []);
+
   return (
     <Container>
       <table>
@@ -16,6 +23,7 @@ export function Table() {
           <tr>
             <td>Desenvolvimento de website</td>
             <td className="deposit">R$12.000</td>
+            <td>FreeLance</td>
             <td>29/06/22</td>
           </tr>
           <tr>
@@ -28,4 +36,7 @@ export function Table() {
       </table>
     </Container>
   );
+}
+function then(arg0: (response: any) => any) {
+  throw new Error("Function not implemented.");
 }
