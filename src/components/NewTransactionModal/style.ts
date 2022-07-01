@@ -50,7 +50,7 @@ export const TransactionTypeContainer = styled.div`
   gap: 0.5rem;
 `;
 export const RadioButton = styled.button`
-  button[type="button"] {
+  button {
     height: 4rem;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
