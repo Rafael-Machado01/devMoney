@@ -1,12 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { Container } from "./style";
 
+interface transactions {
+  id: number;
+  title: string;
+  amount: number;
+  type: string;
+  category: string;
+  createdAt: string;
+}
+
 export function Table() {
+  const [transactions, setTransactions] = useState<transactions[]>([]);
+
   useEffect(() => {
-    api.get("transactions") 
-    .then((response) => console.log(response.data)); 
-  }, []); 
+    api
+      .get("transactions")
+      .then((response) => setTransactions(response.data.transactions));
+  }, []);
   return (
     <Container>
       <table>
@@ -19,23 +31,25 @@ export function Table() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Desenvolvimento de website</td>
-            <td className="deposit">R$12.000</td>
-            <td>FreeLance</td>
-            <td>29/06/22</td>
-          </tr>
-          <tr>
-            <td>Aluguel</td>
-            <td className="withdraw">- R$1.100</td>
-            <td>Casa</td>
-            <td>23/06/22</td>
-          </tr>
+          {transactions.map((transactions) => (
+            <tr key={transactions.id}>
+              <td>{transactions.title}</td>
+              <td className={transactions.type}>
+                {transactions.amount.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </td>
+              <td>{transactions.category}</td>
+              <td>
+                {new Intl.DateTimeFormat("pt-BR").format(
+                  new Date(transactions.createdAt)
+                )}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </Container>
   );
-}
-function then(arg0: (response: any) => any) {
-  throw new Error("Function not implemented.");
 }
