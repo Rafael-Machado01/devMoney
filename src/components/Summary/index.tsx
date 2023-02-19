@@ -3,7 +3,7 @@ import incomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
 import totalImg from "../../assets/total.svg";
 import { useContext, useState } from "react";
-import { TransactionsContext } from "../../TransactionsContext";
+import { useTransactions } from "../../hooks/useTransactions";
 interface Transaction {
   id: number;
   title: string;
@@ -13,16 +13,15 @@ interface Transaction {
   createdAT: string;
 }
 export function Summary() {
-  const data = useContext(TransactionsContext);
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const { transactions } = useTransactions();
   const summary = transactions.reduce(
     (acc, transaction) => {
       console.log(transactions);
-      if (transaction.type == "deposit") {
+      if (transaction.type === "deposit") {
         acc.deposits += transaction.amount;
         acc.total += transaction.amount;
       } else {
-        acc.deposits -= transaction.amount;
+        acc.whitedraws += transaction.amount;
         acc.total -= transaction.amount;
       }
 
